@@ -14,6 +14,7 @@ const waypointsRouter = require('./waypoints/waypointsRouter');
 const tripsRouter = require('./trips/trips-router');
 
 const app = express();
+app.use(express.json());
 app.use(
   morgan(NODE_ENV === 'production' ? 'tiny' : 'common', {
     skip: () => NODE_ENV === 'test',

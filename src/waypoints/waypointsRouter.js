@@ -1,20 +1,18 @@
-/* eslint-disable strict */
-require('dotenv').config();
 const express = require('express');
-const jsonBodyParser = express.json();
+
 const waypointsService = require('./waypointsService');
 const config = require('../config.js');
 const waypointsRouter = express.Router();
-const fetch = require('node-fetch');
+const axios = require('axios');
 
 let origin = 'New+York';
 let dest = 'Los+Angeles';
 
-waypointsRouter.route('/').post(jsonBodyParser, async (req, res, next) => {
+waypointsRouter.route('/').post(async (req, res, next) => {
   let origin = req.body.origin;
-  let dest = req.body.dest
-  let query = req.body.query
-  let radius = req.body.radius
+  let dest = req.body.dest;
+  let query = req.body.query;
+  let radius = req.body.radius;
   if (!origin || !dest || !query) {
     res.send(404, 'missing required field');
   }
@@ -25,8 +23,8 @@ waypointsRouter.route('/').post(jsonBodyParser, async (req, res, next) => {
       res.send(400, 'no route found');
     }
 
-    data = { ...data, query, radius }
-    waypointsService.getWaypoints(data).then((places) => {
+    data = { ...data, query, radius };
+    waypointsService.fetchWaypoints(data).then((places) => {
       const filteredList = Array.from(
         new Set(places.points.map((a) => a.id))
       ).map((id) => {
@@ -38,35 +36,30 @@ waypointsRouter.route('/').post(jsonBodyParser, async (req, res, next) => {
   });
 });
 
-waypointsRouter
-  .route('/nearby')
-  .post(jsonBodyParser, async (req, res, next) => {
-    if (!req.body.lat || !req.body.lng || !req.body.query) {
-      res.send(400, 'missing required fields');
+waypointsRouter.route('/nearby').post(async (req, res, next) => {
+  if (!req.body.lat || !req.body.lng || !req.body.query) {
+    res.send(400, 'missing required fields');
+  }
+  const coords = {
+    points: [{ lat: req.body.lat, lng: req.body.lng }],
+    query: req.body.query,
+  };
+  waypointsService.fetchWaypoints(coords).then((places) => {
+    if (places.points.length > 0) {
+      res.status(200).json(places);
+    } else {
+      res.status(200).send({ message: 'no data found sorry buddy' });
     }
-    let coords = {
-      points: [{ lat: req.body.lat, lng: req.body.lng }],
-      query: req.body.query,
-    };
-    waypointsService.fetchWaypoints(coords).then((places) => {
-      if (places.points.length > 0) {
-        res.send(200, JSON.stringify(places));
-      } else {
-        res.send(
-          200,
-          JSON.stringify({ points: ['no data found sorry buddy'] })
-        );
-      }
-    });
   });
+});
 
-waypointsRouter.route('/photo').post(jsonBodyParser, async (req, res, next) => {
-
+waypointsRouter.route('/photo').post(async (req, res, next) => {
   let url = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${req.body.photo_reference}&key=${config.API_KEY}`;
 
   try {
-    const response = await fetch(url);
-    res.send(200, JSON.stringify(response.url));
+    const response = await axios.get(url);
+    const data = await response.data;
+    return data;
   } catch (error) {
     console.error(error);
   }
