@@ -16,7 +16,7 @@ const waypointsService = {
         'origin and / or destination does not start with "place_id"'
       );
     }
-    return this.googleMapsClient
+    this.googleMapsClient
       .directions({
         params: {
           origin,
@@ -25,54 +25,34 @@ const waypointsService = {
         },
       })
       .then((res) => {
-        const { steps } = res.data.routes[0].legs[0].steps;
-
+        const { steps } = res.data.routes[0].legs[0];
+        console.log(steps);
         return steps;
       })
       .catch((err) => console.error(err));
   },
 
-  getPlaces(query, steps, radius) {
+  getPlaces(steps, query = '', radius = 10000) {
     const places = [];
-
-    for (step of steps) {
-      const location = step.end_location;
-      console.log(location);
-
-      return this.googleMapsClient
-        .placesNearby({
-          query,
-          location,
-          radius,
-          type: 'tourist_attraction',
-          key: API_KEY,
+    for (let i = 0; i < steps.length; i++) {
+      console.log(steps[i]);
+      this.googleMapsClient
+        .textSearch({
+          params: {
+            query,
+            location: steps[i].end_location,
+            radius,
+            type: 'tourist_attraction',
+            key: API_KEY,
+          },
         })
         .then((res) => {
-          console.log(res);
+          console.log(res.data);
+          return res.data.results.forEach((result) => places.push(result));
         })
         .catch((err) => console.error(err));
     }
   },
-
-  // fetchWaypoints({ query, points, endCoords, radius = 10000 }) {
-  //   const waypoints = [];
-  //   console.log(points);
-  //   for (point of points) {
-  //     const lat = points[point].lat;
-  //     const lng = points[point].lng;
-  //     const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${query.join(
-  //       '+OR+'
-  //     )}&type=tourist_attraction&location=${lat},${lng}&radius=${radius}&key=${API_KEY}`;
-  //     axios
-  //       .get(url)
-  //       .then((res) => {
-  //         console.log(res.data);
-  //       })
-  //       .catch((err) => {
-  //         console.error(err);
-  //       });
-  //   }
-  // },
 };
 
 // const start = 'place_id:ChIJaRPGrLxrrIkR--TUxRh2DPA';
@@ -80,10 +60,18 @@ const waypointsService = {
 
 // console.log(waypointsService.getDirections(start, finish));
 
-const myQuery = 'monuments';
-const mySteps = require('./steps');
-const myRadius = 10000;
-
-console.log(waypointsService.getPlaces(myQuery, mySteps, myRadius));
+// const main = async () => {
+//   try {
+//     const directions = await waypointsService.getDirections(start, finish);
+//     if (directions && directions.length > 1) {
+//       const places = await waypointsService.getPlaces(directions);
+//       return places;
+//     }
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
+// console.log(waypointsService.getDirections(start, finish));
+// console.log(main());
 
 module.exports = waypointsService;
