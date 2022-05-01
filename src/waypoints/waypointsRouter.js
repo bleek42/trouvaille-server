@@ -1,39 +1,71 @@
 const express = require('express');
 
+const isValidWaypointReq = require('../utils/validator');
 const waypointsService = require('./waypointsService');
 const config = require('../config.js');
 const waypointsRouter = express.Router();
-const axios = require('axios');
 
 let origin = 'New+York';
 let dest = 'Los+Angeles';
 
 waypointsRouter.route('/').post(async (req, res, next) => {
-  let origin = req.body.origin;
-  let dest = req.body.dest;
-  let query = req.body.query;
-  let radius = req.body.radius;
-  if (!origin || !dest || !query) {
-    res.send(404, 'missing required field');
+  // let origin = req.body.origin;
+  // let dest = req.body.dest;
+  // let query = req.body.query;
+  // let radius = req.body.radius;
+  // if (!origin || !dest || !query) {
+  //   res.send(404, 'missing required field');
+  // }
+
+  const { origin, destination, query, radius } = req.body;
+  if (!origin || !destination || !query) {
+    res.status(400).json({
+      message:
+        'ERROR: Invalid request! Required fields: "origin", "destination", & "query",',
+    });
   }
 
-  const url = `https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${dest}&key=${config.API_KEY}`;
-  waypointsService.getPoints(url, origin).then((data) => {
-    if (!data || data.length < 1) {
-      res.send(400, 'no route found');
-    }
-
-    data = { ...data, query, radius };
-    waypointsService.fetchWaypoints(data).then((places) => {
-      const filteredList = Array.from(
-        new Set(places.points.map((a) => a.id))
-      ).map((id) => {
-        return places.points.find((a) => a.id === id);
-      });
-      places.points = filteredList;
-      res.send(200, JSON.stringify(places));
+  if (!isValidWaypointReq(origin, destination)) {
+    res.status(400).json({
+      message:
+        'ERROR: Invalid request! Fields "origin" and/or "destination" not in Google Maps acceptable format.',
     });
-  });
+  }
+
+  if (radius > 50) {
+    res.status(400).json({
+      message:
+        'ERROR: Invalid request! Filed "radius" cannot be greater than 50 miles.',
+    });
+  }
+
+  const directions = await waypointsService.getDirections(origin, destination);
+  console.log(directions);
+
+  if (!directions.steps.length) {
+    res.status(404).json({
+      message: `ERROR: No directions found for origin ${origin} & destination ${destination}`,
+    });
+  }
+  const { steps } = directions;
+
+  // const url = `https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${dest}&key=${config.API_KEY}`;
+  // waypointsService.getPoints(url, origin).then((data) => {
+  //   if (!data || data.length < 1) {
+  //     res.send(400, 'no route found');
+  //   }
+
+  //   data = { ...data, query, radius };
+  //   waypointsService.fetchWaypoints(data).then((places) => {
+  //     const filteredList = Array.from(
+  //       new Set(places.points.map((a) => a.id))
+  //     ).map((id) => {
+  //       return places.points.find((a) => a.id === id);
+  //     });
+  //     places.points = filteredList;
+  //     res.send(200, JSON.stringify(places));
+  //   });
+  // });
 });
 
 waypointsRouter.route('/nearby').post(async (req, res, next) => {

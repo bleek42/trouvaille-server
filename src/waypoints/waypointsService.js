@@ -1,7 +1,7 @@
 const { Client } = require('@googlemaps/google-maps-services-js');
 const axios = require('axios').default;
 
-const { API_KEY } = require('../config.js');
+const { MAPS_API_KEY } = require('../config.js');
 
 const waypointsService = {
   axiosInstance: axios.create({
@@ -11,17 +11,12 @@ const waypointsService = {
   googleMapsClient: new Client({ axiosInstance: this.axiosInstance }),
 
   getDirections(origin, destination) {
-    if (!origin.startsWith('place_id:') || !origin.startsWith('place_id:')) {
-      throw new Error(
-        'origin and / or destination does not start with "place_id"'
-      );
-    }
     this.googleMapsClient
       .directions({
         params: {
           origin,
           destination,
-          key: API_KEY,
+          key: MAPS_API_KEY,
         },
       })
       .then((res) => {
@@ -32,7 +27,7 @@ const waypointsService = {
       .catch((err) => console.error(err));
   },
 
-  getPlaces(steps, query = '', radius = 10000) {
+  getPlaces(steps, query = '', radius = 50) {
     const places = [];
     for (let i = 0; i < steps.length; i++) {
       console.log(steps[i]);
@@ -43,7 +38,7 @@ const waypointsService = {
             location: steps[i].end_location,
             radius,
             type: 'tourist_attraction',
-            key: API_KEY,
+            key: MAPS_API_KEY,
           },
         })
         .then((res) => {
