@@ -3,8 +3,7 @@ module.exports = [
     distance: { text: '0.8 mi', value: 1316 },
     duration: { text: '2 mins', value: 120 },
     end_location: { lat: 35.6420151, lng: -78.33962629999999 },
-    html_instructions:
-      'Head <b>east</b> on <b>Southwick Ave</b> toward <b>Chickasaw Cir</b>',
+    html_instructions: 'Head <b>east</b> on <b>Southwick Ave</b> toward <b>Chickasaw Cir</b>',
     polyline: {
       points:
         'kdoxEdwe}MAM?AAOGa@YkAKg@Mi@e@{BMg@Mi@Kg@Oo@e@yBMc@CEKUIKGIQQUOSIWEYC[@QDOBSDy@Na@FM@E?MAUC}@WSGUKMEe@We@YCE_@[YYCCc@i@]g@[m@s@{Ao@wA{@mB[s@Uq@CMGQGg@EYAOCk@Au@@QDwD@yA?g@?CA]?WAKCQ?CAIIW',
@@ -42,8 +41,7 @@ module.exports = [
     distance: { text: '13.0 mi', value: 20849 },
     duration: { text: '15 mins', value: 882 },
     end_location: { lat: 35.7026587, lng: -78.04456050000002 },
-    html_instructions:
-      'At the traffic circle, take the <b>2nd</b> exit onto <b>NC-42 E</b>',
+    html_instructions: 'At the traffic circle, take the <b>2nd</b> exit onto <b>NC-42 E</b>',
     maneuver: 'roundabout-right',
     polyline: {
       points:
@@ -60,8 +58,7 @@ module.exports = [
       'Turn <b>left</b> onto the <b>Interstate 95 N</b> ramp to <b>Rocky Mount</b>',
     maneuver: 'ramp-left',
     polyline: {
-      points:
-        'sd|xEnaj{MOAo@Au@KGAeBYA?{AUKEc@I_@Iq@QSG]MCAYKMG_@QcAg@C?C?A?GD',
+      points: 'sd|xEnaj{MOAo@Au@KGAeBYA?{AUKEc@I_@Iq@QSG]MCAYKMG_@QcAg@C?C?A?GD',
     },
     start_location: { lat: 35.7026587, lng: -78.04456050000002 },
     travel_mode: 'DRIVING',
@@ -203,8 +200,7 @@ module.exports = [
     distance: { text: '1.9 mi', value: 3091 },
     duration: { text: '3 mins', value: 156 },
     end_location: { lat: 38.8721101, lng: -76.9899533 },
-    html_instructions:
-      'Keep <b>left</b> at the fork to continue on <b>I-695 E</b>',
+    html_instructions: 'Keep <b>left</b> at the fork to continue on <b>I-695 E</b>',
     maneuver: 'fork-left',
     polyline: {
       points:
@@ -217,8 +213,7 @@ module.exports = [
     distance: { text: '0.5 mi', value: 800 },
     duration: { text: '1 min', value: 40 },
     end_location: { lat: 38.87165570000001, lng: -76.9824666 },
-    html_instructions:
-      'Take exit <b>2B</b> for <b>State Hwy 295 N</b> toward <b>US-50</b>',
+    html_instructions: 'Take exit <b>2B</b> for <b>State Hwy 295 N</b> toward <b>US-50</b>',
     maneuver: 'ramp-right',
     polyline: {
       points:
@@ -280,8 +275,7 @@ module.exports = [
     distance: { text: '7.8 mi', value: 12550 },
     duration: { text: '9 mins', value: 512 },
     end_location: { lat: 39.1404229, lng: -76.7552924 },
-    html_instructions:
-      'Keep <b>left</b> to stay on <b>Baltimore-Washington Pkwy</b>',
+    html_instructions: 'Keep <b>left</b> to stay on <b>Baltimore-Washington Pkwy</b>',
     maneuver: 'keep-left',
     polyline: {
       points:
@@ -294,8 +288,7 @@ module.exports = [
     distance: { text: '8.7 mi', value: 14062 },
     duration: { text: '9 mins', value: 520 },
     end_location: { lat: 39.2307633, lng: -76.6498785 },
-    html_instructions:
-      'Continue onto <b>MD-295 N</b>/<wbr/><b>Baltimore-Washington Pkwy</b>',
+    html_instructions: 'Continue onto <b>MD-295 N</b>/<wbr/><b>Baltimore-Washington Pkwy</b>',
     polyline: {
       points:
         'sr{mFpgnsMs@UeDiA?AoC_AMEKCGCYImA_@CAgC}@g@QGAcA_@kBs@UIw@YiAa@a@OC?]MeA_@OGe@O_A]eBm@ECi@QGCa@OKCwAg@eAa@a@MSIg@SWK_Aa@OGAAq@[m@YCAKGUMUMg@Yi@Ya@Wi@_@k@_@oB{A[W{@s@y@u@AAsAoAA?u@y@k@m@_AaAk@q@a@c@{DiEeDuDeDqDiBqByBcCuDaE_FqFmC{Cs@w@kBsBwAyAiDsDW[GGuGiHa@g@cBiBu@w@_AeAcAcAYWMKEEa@a@s@s@m@i@}AuAUS_A{@m@i@cA_Aa@[[YIG{AqASSw@q@wAqA}@w@a@_@{@q@KIQO{@w@OMuAmAy@q@uBgBgEyD}BqB}EeEcA{@kKcJcA{@USII[Y]YQOwAoAkB_BUS?A]Yq@m@e@a@]Yy@s@c@_@_Ay@][WUWSeYqVeGmFMKMMa@]CCe@_@mBcBqAkAg@c@oC_COMyAqAgAaAiB}AOMg@c@_@]yAoAWUo@k@MKw@q@g@e@_B}AYYw@{@q@y@CCW[GGMQg@q@g@q@OSU[g@w@c@s@OWi@{@}@_Be@}@S_@o@wAg@gAGMKYMYSe@Yw@GO]_AM]Ws@]gAEKIWI[K_@AAI[Mg@GOGUGQCK?AK_@W_Ac@{AeA{DuAwE[gAYcASq@Qi@Qm@[cA[oAWcAQq@GUMi@A?K]Om@Ok@Oo@iA{Du@kBACa@cAKWO[Wg@KUi@cAMSQWIOMSGKQYCCGKU[Y]UYuAyAw@s@eBwAs@i@CAaAs@{AkAq@u@q@s@_CqC}A_CCCe@q@{@mAe@u@aAyA_@k@Y_@e@s@OUS[Y_@Ya@CGSYCCm@}@Q[W_@CCi@y@WY_@m@_AwAy@kAGMe@s@u@sAq@sAiBiEMYa@mA]_A[eAQo@GUWaA[sACMc@iBMg@?ACGWgA}@yDAEEKOc@?CGOYiASu@EMI]GWMi@Ka@I[g@yBAEc@eBU_AMg@GWGWMg@mD_OU_AaA_Ek@}BOi@[uAMi@A?kCyKa@cB_@aB[kAI[SaAaCkJg@wBMg@EUm@aCYqAoAoECMYcAm@kBQk@o@_BSc@EKEK[s@g@eAuBeEMOOUS[KOMOCCU_@o@{@CEu@}@GIm@q@m@s@[[g@g@kBaBMM{@q@a@[sAy@CCCA_@Qk@YiA_@GCIAwA_@uAO]EqBOa@EA?YCoAMaBMoCSG?c@Ec@EWA}AM}BUs@G',
@@ -321,8 +314,7 @@ module.exports = [
     distance: { text: '10.5 mi', value: 16920 },
     duration: { text: '11 mins', value: 686 },
     end_location: { lat: 39.3248055, lng: -76.5273119 },
-    html_instructions:
-      'Merge onto <b>I-895 N</b><div style="font-size:0.9em">Toll road</div>',
+    html_instructions: 'Merge onto <b>I-895 N</b><div style="font-size:0.9em">Toll road</div>',
     maneuver: 'merge',
     polyline: {
       points:
@@ -431,8 +423,7 @@ module.exports = [
     distance: { text: '0.2 mi', value: 368 },
     duration: { text: '1 min', value: 38 },
     end_location: { lat: 39.8065048, lng: -75.9670759 },
-    html_instructions:
-      'Take the <b>PA-10</b> exit toward <b>Cochranville</b>/<wbr/><b>Oxford</b>',
+    html_instructions: 'Take the <b>PA-10</b> exit toward <b>Cochranville</b>/<wbr/><b>Oxford</b>',
     maneuver: 'ramp-right',
     polyline: {
       points:

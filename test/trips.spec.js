@@ -35,5 +35,4 @@ describe('trips endpoint', function () {
         });
     });
   });
-
 });

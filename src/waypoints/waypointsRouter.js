@@ -20,8 +20,7 @@ waypointsRouter.route('/').post(async (req, res, next) => {
   const { origin, destination, query, radius } = req.body;
   if (!origin || !destination || !query) {
     res.status(400).json({
-      message:
-        'ERROR: Invalid request! Required fields: "origin", "destination", & "query",',
+      message: 'ERROR: Invalid request! Required fields: "origin", "destination", & "query",',
     });
   }
 
@@ -34,8 +33,7 @@ waypointsRouter.route('/').post(async (req, res, next) => {
 
   if (radius > 50) {
     res.status(400).json({
-      message:
-        'ERROR: Invalid request! Filed "radius" cannot be greater than 50 miles.',
+      message: 'ERROR: Invalid request! Filed "radius" cannot be greater than 50 miles.',
     });
   }
 

@@ -10,8 +10,7 @@ exports.isValidWaypointReq = (origin, destination) => {
     (typeof destination === 'string' && destination?.startsWith('place_id:'));
 
   const isLatLng =
-    !isNaN(origin?.lat && origin?.lng) ||
-    !isNaN(destination?.lat && destination?.lng);
+    !isNaN(origin?.lat && origin?.lng) || !isNaN(destination?.lat && destination?.lng);
 
   return isGooglePlaceId || isLatLng || isUsState ? true : false;
 };

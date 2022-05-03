@@ -27,37 +27,41 @@ const createAuth = (mockUser, secret = process.env.JWT_SECRET) => {
 
 const insertMockUser = (db) => {
   const mockUser = {
-    'username': 'userrrr',
-    'email': 'emaillll',
-    'password': bcrypt.hashSync('cl3v3rP@sswerd', 10)
+    username: 'userrrr',
+    email: 'emaillll',
+    password: bcrypt.hashSync('cl3v3rP@sswerd', 10),
   };
 
   return db.into('users').insert(mockUser);
 };
 
 const insertTrip = (db) => {
-  let testTrip = [{
-    'origin': JSON.stringify('blah'),
-    'destination': JSON.stringify('asjdf'),
-    'waypoints': JSON.stringify('asdf'),
-    'destination_name': JSON.stringify('asdf'),
-    'user_id': 1
-  }];
+  let testTrip = [
+    {
+      origin: JSON.stringify('blah'),
+      destination: JSON.stringify('asjdf'),
+      waypoints: JSON.stringify('asdf'),
+      destination_name: JSON.stringify('asdf'),
+      user_id: 1,
+    },
+  ];
 
   return db.into('trips').insert(testTrip);
 };
 
 function cleanTrip(db) {
-  return db.transaction(trx =>
-    trx.raw(
-      `TRUNCATE
+  return db.transaction((trx) =>
+    trx
+      .raw(
+        `TRUNCATE
         "trips"`
-    )
+      )
       .then(() =>
         Promise.all([
           trx.raw('ALTER SEQUENCE trips_trip_id_seq minvalue 0 START WITH 1'),
-          trx.raw('SELECT setval(\'trips_trip_id_seq\', 0)')
-        ]))
+          trx.raw("SELECT setval('trips_trip_id_seq', 0)"),
+        ])
+      )
   );
 }
 
@@ -68,7 +72,6 @@ function cleanUsers(db) {
   );
 }
 
-
 module.exports = {
   MockUser,
   createAuth,
@@ -76,5 +79,5 @@ module.exports = {
   insertTrip,
   cleanTrip,
   cleanUsers,
-  makeKnexInstance
+  makeKnexInstance,
 };

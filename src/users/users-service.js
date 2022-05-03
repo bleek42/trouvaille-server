@@ -6,7 +6,7 @@ const usersService = {
     return db('users')
       .where({ username })
       .first()
-      .then(user => !!user);
+      .then((user) => !!user);
   },
   insertUser(db, newUser) {
     return db
@@ -17,16 +17,16 @@ const usersService = {
   },
   validatePassword(password) {
     const PW_REGEX = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&])[\S]+/;
-    if(password.length < 8) {
+    if (password.length < 8) {
       return 'password must be greater than 8 characters';
     }
-    if(password.length > 28) {
+    if (password.length > 28) {
       return 'password must be less than 28 characters';
     }
-    if(password.startsWith(' ') || password.endsWith(' ')) {
+    if (password.startsWith(' ') || password.endsWith(' ')) {
       return 'password must not start or end with a blank space';
     }
-    if(!PW_REGEX.test(password)) {
+    if (!PW_REGEX.test(password)) {
       return 'password must contain an uppercase, lowercase, a number, and a special character';
     }
     return null;
@@ -37,9 +37,9 @@ const usersService = {
   sanitizeUser(user) {
     return {
       username: xss(user.username),
-      email: xss(user.email)
+      email: xss(user.email),
     };
-  }
+  },
 };
 
 module.exports = usersService;

@@ -21,15 +21,10 @@ usersRouter.post('/new', jsonBodyParser, async (req, res, next) => {
 
     if (passwordError) return res.status(400).json({ error: passwordError });
 
-    const hasUserWithUserName = await usersService.checkUsers(
-      req.app.get('db'),
-      username
-    );
+    const hasUserWithUserName = await usersService.checkUsers(req.app.get('db'), username);
 
     if (hasUserWithUserName)
-      return res
-        .status(400)
-        .json({ error: 'existing user already has that username' });
+      return res.status(400).json({ error: 'existing user already has that username' });
 
     const hashedPassword = await usersService.hashPassword(password);
 
@@ -41,10 +36,7 @@ usersRouter.post('/new', jsonBodyParser, async (req, res, next) => {
 
     const user = await usersService.insertUser(req.app.get('db'), newUser);
 
-    res
-      .status(201)
-      .location(path.posix.join('/login'))
-      .json(usersService.sanitizeUser(user));
+    res.status(201).location(path.posix.join('/login')).json(usersService.sanitizeUser(user));
   } catch (error) {
     next(error);
   }

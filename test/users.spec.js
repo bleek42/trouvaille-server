@@ -28,7 +28,7 @@ describe('UsersService', () => {
           .post('/api/users/new')
           .send(newUser)
           .expect(201)
-          .expect(res => {
+          .expect((res) => {
             expect(res.body.username).to.eql(newUser.username);
             expect(res.body).to.not.have.property('password');
             expect(res.headers.location).to.eql('/login');

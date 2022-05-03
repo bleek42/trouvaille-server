@@ -1,66 +1,117 @@
-const { Client } = require('@googlemaps/google-maps-services-js');
-const axios = require('axios').default;
+import { Client } from '@googlemaps/google-maps-services-js';
+import axios from 'axios';
 
-const { MAPS_API_KEY } = require('../config.js');
+import { config } from '../config.js';
 
-const waypointsService = {
-  axiosInstance: axios.create({
-    baseURL: 'https://maps.googleapis.com/maps/api',
-    method: 'GET',
-  }),
-  googleMapsClient: new Client({ axiosInstance: this.axiosInstance }),
+import { createIterableStream, writeFileIterator } from '../utils/asyncIterator.js';
 
-  getDirections(origin, destination) {
-    this.googleMapsClient
-      .directions({
+// const googleMapsClient = new Client({ axiosInstance });
+
+export class WaypointsService extends Client {
+  constructor(axiosInstance) {
+    super(axiosInstance);
+    this.axiosInstance =
+      axiosInstance ||
+      axios.create({
+        baseURL: 'https://maps.googleapis.com/maps/api',
+        method: 'GET',
+      });
+  }
+
+  async getDirections(origin, destination) {
+    const results = [];
+    try {
+      const directions = await this.directions({
         params: {
           origin,
           destination,
-          key: MAPS_API_KEY,
+          key: config.MAPS_API_KEY,
         },
-      })
-      .then((res) => {
-        const { steps } = res.data.routes[0].legs[0];
-        console.log(steps);
-        return steps;
-      })
-      .catch((err) => console.error(err));
-  },
-
-  getPlaces(steps, query = '', radius = 50) {
-    const places = [];
-    for (let i = 0; i < steps.length; i++) {
-      console.log(steps[i]);
-      this.googleMapsClient
-        .textSearch({
-          params: {
-            query,
-            location: steps[i].end_location,
-            radius,
-            type: 'tourist_attraction',
-            key: MAPS_API_KEY,
-          },
-        })
-        .then((res) => {
-          console.log(res.data);
-          return res.data.results.forEach((result) => places.push(result));
-        })
-        .catch((err) => console.error(err));
+      });
+      const steps = directions.data?.routes[0]?.legs[0]?.steps;
+      if (steps && steps.length > 1) {
+        for await (const step of steps) {
+          results.push(step);
+        }
+      }
+      console.log(results);
+      return results;
+    } catch (err) {
+      console.error(err);
+    } finally {
+      console.info('reached finally block!');
     }
-  },
-};
+  }
 
-// const start = 'place_id:ChIJaRPGrLxrrIkR--TUxRh2DPA';
-// const finish = 'place_id:ChIJlwTn0JFdxokRB2e-P-ror2Q';
+  async getPlaces(steps, query, radius = 50) {
+    const places = [];
+    try {
+      console.log('try');
+    } catch (err) {
+      console.error('catch', { err });
+    } finally {
+    }
+  }
+}
 
-// console.log(waypointsService.getDirections(start, finish));
+const start = 'place_id:ChIJaRPGrLxrrIkR--TUxRh2DPA';
+const finish = 'place_id:ChIJlwTn0JFdxokRB2e-P-ror2Q';
+
+const waypointsService = new WaypointsService();
+waypointsService.getDirections(start, finish);
+
+// const waypointsService = {
+//   getDirections(origin, destination) {
+//     this.axiosInstance.interceptors.response.use(async (res) => {
+//       const jsonWritable = JSON.stringify(res);
+//       await writeFileIterator(jsonWritable, './directions.json');
+//     });
+//     this.googleMapsClient
+//       .directions({
+//         params: {
+//           origin,
+//           destination,
+//           key: config.MAPS_API_KEY,
+//         },
+//       })
+//       .then((res) => {
+//         const { steps } = res.data.routes[0].legs[0];
+//       })
+//       .catch((err) => console.error(err));
+//   },
+
+//   getPlaces(steps, query = 'monuments', radius = 50) {
+//     const places = [];
+//     for (let i = 0; i < steps.length; i++) {
+//       console.log(steps[i]);
+//       this.googleMapsClient
+//         .textSearch({
+//           params: {
+//             query,
+//             location: steps[i].end_location,
+//             radius,
+//             type: 'tourist_attraction',
+//             key: config.MAPS_API_KEY,
+//           },
+//         })
+//         .then((res) => {
+//           res.data.results.forEach((result) => places.push(result));
+//           i++;
+//         })
+//         .catch((err) => console.error(err));
+//     }
+//   },
+// };
 
 // const main = async () => {
 //   try {
 //     const directions = await waypointsService.getDirections(start, finish);
-//     if (directions && directions.length > 1) {
+
+//     if (directions) {
+//       const json = JSON.stringify(directions);
+
 //       const places = await waypointsService.getPlaces(directions);
-//       return places;
+//       console.log(places);
 //     }
 //   } catch (err) {
 //     console.error(err);
@@ -68,5 +119,3 @@ const waypointsService = {
 // };
 // console.log(waypointsService.getDirections(start, finish));
 // console.log(main());
-
-module.exports = waypointsService;

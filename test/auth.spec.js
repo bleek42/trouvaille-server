@@ -16,27 +16,22 @@ describe('auth endpoints', () => {
   beforeEach('cleanup', () => cleanUsers(db));
 
   describe('POST /api/auth/login', () => {
-
     beforeEach('insert mock user', () => {
       return insertMockUser(db);
     });
 
     context('given an existing users valid credentials', () => {
-    
       const mockUser = {
-        'username': 'userrrr',
-        'email': 'emaillll',
-        'password': 'cl3v3rP@sswerd'
+        username: 'userrrr',
+        email: 'emaillll',
+        password: 'cl3v3rP@sswerd',
       };
 
       it('responds 200: authorizes existing login credentials', () => {
-        return supertest(app)
-          .post('/api/auth/login')
-          .send(mockUser)
-          .expect(200);
+        return supertest(app).post('/api/auth/login').send(mockUser).expect(200);
       });
     });
-    
+
     context('given invalid login credentials', () => {
       it('responds 400: unable to sign in', () => {
         const invalidUser = new MockUser();
@@ -46,7 +41,7 @@ describe('auth endpoints', () => {
         return supertest(app)
           .post('/api/auth/login')
           .send(invalidUser)
-          .expect(400, {'error': 'incorrect username and/or password'});
+          .expect(400, { error: 'incorrect username and/or password' });
       });
     });
   });
