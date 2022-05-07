@@ -1,0 +1,39 @@
+{
+  "env": {
+    "node": true,
+    "es2020": true,
+    "mocha": true
+  },
+  "plugins": ["prettier"],
+  "extends": ["prettier"],
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "ecmaVersion": 2019,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "modules": true,
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "rules": {
+    "@babel/new-cap": "error",
+    "@babel/no-invalid-this": "error",
+    "@babel/no-unused-expressions": "error",
+    "@babel/object-curly-spacing": "error",
+    "@babel/semi": "error",
+    "prettier/prettier": [
+      "warn",
+      {},
+      {
+        "usePrettierrc": true
+      }
+    ],
+    "camelcase": ["warn", { "ignoreDestructuring": true, "properties": "never" }],
+    "no-restricted-syntax": "off",
+    "brace-style": ["error", "stroustrup", { "allowSingleLine": true }],
+    "no-console": "warn",
+    "consistent-return": "warn",
+    "indent": ["error", 2, { "MemberExpression": 1 }],
+    "curly": ["warn", "multi-or-nest", "consistent"]
+  }
+}

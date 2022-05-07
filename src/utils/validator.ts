@@ -1,4 +1,8 @@
-exports.isValidWaypointReq = (origin, destination) => {
+import type { LatLng } from '@googlemaps/google-maps-services-js'
+
+type DirectionsParamType = LatLng | string;
+
+export const isValidWaypointReq = (origin: DirectionsParamType, destination: DirectionsParamType) => {
   const usStateRegex =
     /((A[LKZR])|(C[AOT])|(D[EC])|(FL)|(GA)|(HI)|(I[DLNA])|(K[SY])|(LA)|(M[EDAINSOT])|(N[EVHJMYCD])|(O[HKR])|(PA)|(RI)|(S[CD])|(T[NX])|(UT)|(V[TA])|(W[AVIY]))$/i;
   const isUsState =
@@ -9,10 +13,7 @@ exports.isValidWaypointReq = (origin, destination) => {
     (typeof origin === 'string' && origin.startsWith('place_id:')) ||
     (typeof destination === 'string' && destination?.startsWith('place_id:'));
 
-  const isLatLng =
-    !isNaN(origin?.lat && origin?.lng) || !isNaN(destination?.lat && destination?.lng);
-
-  return isGooglePlaceId || isLatLng || isUsState ? true : false;
+  return isGooglePlaceId || isUsState ? true : false;
 };
 // const origLatLng = { lat: 45.45445165, lng: -74.456546 };
 // const destLatLng = { lat: 14.8258442, lng: -65.465214 };

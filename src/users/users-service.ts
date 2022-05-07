@@ -1,5 +1,4 @@
-const bcrypt = require('bcrypt');
-const xss = require('xss');
+import xss from 'xss';
 
 const usersService = {
   checkUsers(db, username) {
@@ -42,4 +41,4 @@ const usersService = {
   },
 };
 
-module.exports = usersService;
+export default usersService;

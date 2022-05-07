@@ -4,8 +4,8 @@ const tripsService = {
       .from('trips')
       .select('*')
       .where('user_id', userId)
-      .then((res) => {
-        return this.deserialize(res);
+      .then((trips) => {
+        return this.deserialize(trips);
       });
   },
   addUserTrip(db, userPost) {
@@ -14,10 +14,7 @@ const tripsService = {
       .into('trips')
       .returning('*')
       .then((trips) => {
-        return 'posted';
-      })
-      .then((data) => {
-        return data;
+        return trips;
       });
   },
   serialize(trip) {
@@ -39,6 +36,7 @@ const tripsService = {
           waypoints: JSON.parse(element.waypoints),
           trip_id: element.trip_id,
           user_id: element.user_id,
+          origin_name: element.origin_name,
           destination_name: element.destination_name,
         });
       }
@@ -47,4 +45,4 @@ const tripsService = {
   },
 };
 
-module.exports = tripsService;
+export default tripsService;

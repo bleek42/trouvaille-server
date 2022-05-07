@@ -1,27 +1,26 @@
+import type { ClientOptions } from '@googlemaps/google-maps-services-js';
+import { AxiosInstance, default as axios, Method } from 'axios';
 import { Client } from '@googlemaps/google-maps-services-js';
-import axios from 'axios';
 
-import { config } from '../config.js';
-
-import { createIterableStream, writeFileIterator } from '../utils/asyncIterator.js';
-
-// const googleMapsClient = new Client({ axiosInstance });
-
-export class WaypointsService extends Client {
-  constructor(axiosInstance) {
-    super(axiosInstance);
-    this.axiosInstance =
-      axiosInstance ||
-      axios.create({
-        baseURL: 'https://maps.googleapis.com/maps/api',
-        method: 'GET',
-      });
+import { config } from '../config';
+export class WaypointsService {
+  public mapsClient: Client;
+  public axiosInstance: AxiosInstance;
+  constructor() {
+    (this.axiosInstance = axios.create({
+      baseURL: 'https://api.google.com/api/maps',
+      method: 'GET',
+      headers: { Authorization: `Bearer ${config.MAPS_API_KEY as string}` },
+    })),
+      (this.mapsClient = new Client({
+        axiosInstance: this.axiosInstance,
+      }));
   }
 
   async getDirections(origin, destination) {
     const results = [];
     try {
-      const directions = await this.directions({
+      const directions = await this.mapsClient.directions({
         params: {
           origin,
           destination,
@@ -57,8 +56,8 @@ export class WaypointsService extends Client {
 const start = 'place_id:ChIJaRPGrLxrrIkR--TUxRh2DPA';
 const finish = 'place_id:ChIJlwTn0JFdxokRB2e-P-ror2Q';
 
-const waypointsService = new WaypointsService();
-waypointsService.getDirections(start, finish);
+// const waypointsService = new WaypointsService();
+// waypointsService.getDirections(start, finish);
 
 // const waypointsService = {
 //   getDirections(origin, destination) {

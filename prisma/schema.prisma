@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model schemaversion {
+  version BigInt    @id
+  name    String?
+  md5     String?
+  run_at  DateTime? @db.Timestamptz(6)
+}
+
+model Interests {
+  id        Int         @id @default(autoincrement())
+  userId    Int         @unique
+  places    String[]
+  createdAt DateTime    @default(now())
+  RoadTrips RoadTrips[]
+  Users     Users?
+}
+
+model Places {
+  mapsPlaceId String  @unique @db.VarChar(150)
+  name        String
+  placeType   keyword
+  visited     Boolean @default(false)
+}
+
+model RoadTrips {
+  id              Int       @id @default(autoincrement())
+  userId          Int
+  title           String    @db.VarChar(80)
+  origin          String    @db.VarChar(60)
+  destination     String    @db.VarChar(60)
+  tripKeywords    keyword[]
+  steps           Json      @db.Json
+  waypoints       Json      @db.Json
+  originName      String
+  destinationName String
+  distance        Decimal   @db.Decimal
+  hasStarted      Boolean?  @default(false)
+  createdAt       DateTime  @default(now())
+  Interests       Interests @relation(fields: [userId], references: [id], onUpdate: NoAction)
+  Users           Users?
+}
+
+model Users {
+  id        String?   @unique @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  userId    Int       @id @default(autoincrement())
+  username  String    @unique @db.VarChar(32)
+  email     String    @unique @db.VarChar(64)
+  firstname String    @db.VarChar(40)
+  lastname  String    @db.VarChar(40)
+  password  String    @db.VarChar(24)
+  verified  Boolean?  @default(false)
+  createdAt DateTime  @default(now())
+  RoadTrips RoadTrips @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Interests Interests @relation(fields: [userId], references: [id], onDelete: Cascade, map: "Users_userId_fkey1")
+}
+
+enum keyword {
+  camping
+  hiking
+  breweries
+  beaches
+  parks
+  zoos
+  museums
+  wineries
+  amusement
+  haunted
+  novelty
+  memorial
+  monuments
+}
