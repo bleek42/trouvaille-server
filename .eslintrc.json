@@ -1,0 +1,18 @@
+{
+  "env": {
+    "commonjs": true,
+    "es2021": true
+  },
+  "extends": ["prettier"],
+  "plugins": ["prettier"],
+  "parserOptions": {
+    "ecmaVersion": "latest"
+  },
+  "rules": {
+    "prettier/prettier": ["warn", {}],
+    "brace-style": ["error", "stroustrup", { "allowSingleLine": true }],
+    "imports/prefer-default-export": "off",
+    "no-unused-vars": "warn",
+    "no-restricted-syntax": "off"
+  }
+}

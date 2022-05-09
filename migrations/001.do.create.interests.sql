@@ -1,0 +1,7 @@
+CREATE TABLE interests (
+    id SERIAL PRIMARY KEY,
+    keywords TEXT [] NOT NULL,
+    created_by VARCHAR(255) NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
